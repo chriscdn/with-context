@@ -1,0 +1,27 @@
+{
+  "name": "@chriscdn/with-context",
+  "version": "0.0.1",
+  "license": "MIT",
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": "./lib/index.js",
+  "scripts": {
+    "build": "tsup",
+    "watch": "yarn build --watch",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/node": "^25.6.2",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "lib"
+  ]
+}
