@@ -1,6 +1,6 @@
 # @chriscdn/with-context
 
-A minimal context injection utility for Node.js built on [`AsyncLocalStorage`](https://nodejs.org/api/async_context.html#class-asynclocalstorage). Propagate values across async call chains without threading them through every function signature.
+A minimal context injection utility for Node.js built on [`AsyncLocalStorage`](https://nodejs.org/api/async_context.html#class-asynclocalstorage). Propagate values across async call chains without having to pass them manually.
 
 This package is still in early development, so use at your own risk.
 
@@ -23,7 +23,8 @@ yarn add @chriscdn/with-context
 ```ts
 import { createContext } from "@chriscdn/with-context";
 
-const { injectOrThrow, withContext } = createContext<number>("My context");
+const { injectOrThrow, inject, withContext } =
+  createContext<number>("My context");
 
 withContext(12345, () => {
   const theNumber = injectOrThrow();
