@@ -1,10 +1,12 @@
 import { createContext } from "../src";
 
-const { injectOrThrow, withContext } = createContext<number>("My context");
+const userContext = createContext<{ id: string }>("user");
+const { withContext, injectOrThrow } = userContext;
 
-withContext(1231233, () => {
-  const z = injectOrThrow();
-  console.log(z);
+const getUserId = () => injectOrThrow().id;
+
+const id = withContext({ id: "abc" }, () => {
+  return getUserId();
 });
 
-// console.log(injectOrThrow());
+console.log(id);

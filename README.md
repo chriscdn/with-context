@@ -2,47 +2,37 @@
 
 A small helper for request scoped state using Node.js `AsyncLocalStorage`.
 
-Each `createContext()` call creates an isolated slot that can store and retrieve a value within the same async execution chain.
+Each `createContext()` call creates an isolated slot that stores and retrieves a value within the same async execution chain.
 
-## API
+## Installing
 
-### `createContext(label?)`
+Using npm:
 
-Creates a context container.
-
-Returns:
-
-- `withContext(value, fn)`
-- `inject()`
-- `injectOrThrow()`
-
-### `withContext(value, fn)`
-
-Runs `fn` with `value` bound to the current async scope.
-
-```ts
-context.withContext("abc", () => {
-  // value available in this async chain
-});
+```sh
+npm install @chriscdn/with-context
 ```
 
-### `inject()`
+Using yarn:
 
-Reads the current value.
-
-Returns `T | undefined`
-
-```ts
-const value = context.inject();
+```sh
+yarn add @chriscdn/with-context
 ```
 
-### `injectOrThrow()`
-
-Same as `inject()`, but throws if missing.
+## Usage
 
 ```ts
-const value = context.injectOrThrow();
+import { createContext } from "@chriscdn/with-context";
+
+const { withContext, inject, injectOrThrow } = createContext([optionalLabel]);
 ```
+
+The `optionalLabel` is only used for error messages. I.e., calling `createContext` twice with the same label will create independent contexts.
+
+You can now bind and read values anywhere in the async chain.
+
+- `withContext(value, fn)` - Executes `fn` with `value` available to all async calls within it. Returns the result of `fn`.
+- `inject()` - Returns the current value if inside a context, otherwise `undefined`.
+- `injectOrThrow()` - Returns the current value or throws if not inside a context.
 
 ## Example
 
@@ -51,35 +41,17 @@ import { createContext } from "@chriscdn/with-context";
 
 const userContext = createContext<{ id: string }>("user");
 
-function getUserId() {
-  return userContext.injectOrThrow().id;
-}
+const { withContext, injectOrThrow } = userContext;
 
-userContext.withContext({ id: "u1" }, () => {
-  console.log(getUserId());
+const getUserId = () => injectOrThrow().id;
+
+const id = withContext({ id: "abc" }, () => {
+  return getUserId();
 });
+
+console.log(id);
+// abc
 ```
-
-## Optional usage
-
-```ts
-const requestId = createContext<string>("requestId");
-
-const log = (msg: string) => {
-  const id = requestId.inject();
-  console.log(id ? `[${id}] ${msg}` : msg);
-};
-
-requestId.withContext("req-123", () => {
-  log("started");
-});
-```
-
-## Notes
-
-- Context is scoped to the async chain started by `withContext`
-- Each `createContext()` is isolated
-- Common use cases: request state, tracing, auth, metadata
 
 ## License
 
