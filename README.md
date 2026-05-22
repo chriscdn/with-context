@@ -26,10 +26,16 @@ import { createContext } from "@chriscdn/with-context";
 const { injectOrThrow, inject, withContext } =
   createContext<number>("My context");
 
+// The `withContext` function makes a value available to any code running in
+// the same async call chain, and only for the duration of the provided function.
 withContext(12345, () => {
+  // Retrieves the value, but throws an exception if not in context.
   const theNumber = injectOrThrow();
   console.log(theNumber);
   // 12345
+
+  // Retrieve the value if it's in context, undefined otherwise.
+  const theNumber2 = inject();
 });
 ```
 

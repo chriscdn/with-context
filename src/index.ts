@@ -2,7 +2,7 @@ import { AsyncLocalStorage } from "async_hooks";
 
 const storage = new AsyncLocalStorage<Map<string, unknown>>();
 
-const createContext = <T>(label: string) => {
+const createContext = <T>(label?: string) => {
   const factoryKey = crypto.randomUUID();
 
   const inject = (): T | undefined => {
