@@ -1,5 +1,7 @@
 import { describe, expect, test } from "vitest";
-import { withContext, inject } from "../src";
+import { createContext } from "../src";
+
+const { withContext, inject } = createContext();
 
 const returnInject = () => inject();
 
