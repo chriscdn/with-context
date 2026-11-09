@@ -1,4 +1,3 @@
-//#region src/index.d.ts
 /**
  * Creates an isolated context for storing and retrieving a value of type T
  * across an asynchronous execution chain.
@@ -20,6 +19,4 @@ declare const createContext: <T>(label?: string) => {
   inject: () => T | undefined;
   injectOrThrow: () => T;
 };
-//#endregion
 export { createContext };
-//# sourceMappingURL=index.d.mts.map

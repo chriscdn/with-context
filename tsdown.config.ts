@@ -5,7 +5,7 @@ export default defineConfig({
   format: ["esm"],
   dts: true,
   sourcemap: true,
-  minify: true,
+  // minify: true,
   clean: true,
   outDir: "lib",
   platform: "node",
